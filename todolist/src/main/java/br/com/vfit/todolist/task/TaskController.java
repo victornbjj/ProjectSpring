@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import jakarta.servlet.http.HttpServletRequest;
+import br.com.vfit.todolist.utils.Ultils;
 
 @RestController
 @RequestMapping("/tasks")
@@ -44,5 +44,18 @@ public class TaskController {
          var tasks =  this.taskRepository.findByIdUser((UUID)IdUser);
         return tasks;
     }
+    @PutMapping("/{id}")
+    public TaskModel upate(@RequestBody TaskModel taskModel, HttpServletRequest request, @PathVariable UUID id){
+
+
+
+
+        var task=  this.taskRepository.findById(id).orElse( null);
+        Ultils.copyNonNullProperties(taskModel, task);
+
+
+        return this.taskRepository.save(task);
+    }
+
 
 }
