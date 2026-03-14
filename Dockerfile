@@ -1,16 +1,11 @@
-# Etapa 1 — build da aplicação
-FROM ubuntu:latest AS build
-
-RUN apt-get update -y
-RUN apt-get install -y openjdk-17-jdk maven
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 
 WORKDIR /app
-COPY . .
+COPY todolist/ .
 
 RUN mvn clean install -DskipTests
 
-
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jre-jammy
 
 WORKDIR /app
 
