@@ -3,6 +3,7 @@ package br.com.vfit.todolist.task;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import jakarta.annotation.Nonnull;
 import org.hibernate.annotations.CreationTimestamp;
 
 import jakarta.persistence.Column;
@@ -86,12 +87,15 @@ public class TaskModel {
     public String getTitle() {
         return  title;
     }
-    public void setTitle(String title) throws Exception{
-        if(title.length()> 50){
-            throw  new Exception("O campo title deve conter no maximo 50 caracteres");
-        }
-        this.title = title;
+    public void setTitle(String title) {
+    if (title != null && title.length() > 50) {
+        throw new org.springframework.web.server.ResponseStatusException(
+            org.springframework.http.HttpStatus.BAD_REQUEST,
+            "O campo title deve conter no máximo 50 caracteres"
+        );
     }
+    this.title = title;
+}
 
 }
 
